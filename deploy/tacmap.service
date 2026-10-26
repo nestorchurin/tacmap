@@ -1,0 +1,41 @@
+[Unit]
+Description=TACMAP Tactical Radar Aggregator Daemon
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=tacmap
+Group=tacmap
+WorkingDirectory=/opt/tacmap
+
+# Завантаження параметрів оточення
+EnvironmentFile=/opt/tacmap/config/tacmap.env
+
+# Виконавчий бінарник
+ExecStart=/opt/tacmap/bin/alerts-map-parser
+
+# Автоматичний перезапуск у разі падіння
+Restart=always
+RestartSec=5s
+
+# Ліміти дескрипторів для високочастотних WebSockets
+LimitNOFILE=65535
+
+# Ізоляція та безпека Systemd (Hardened Sandboxing)
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+ReadWritePaths=/opt/tacmap/data
+
+# Стандартне логування в journald
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=tacmap
+
+[Install]
+WantedBy=multi-user.target

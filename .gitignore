@@ -1,0 +1,13 @@
+target/
+**/target/
+*.log
+**/*.log
+.env
+.DS_Store
+.idea/
+.vscode/
+_backup*/
+*.db
+*.db-shm
+*.db-wal
+**/data/*.db*
